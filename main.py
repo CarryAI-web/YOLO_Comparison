@@ -1,4 +1,5 @@
-"""from typing import Union
+"""                This commented code is for ONE MODEL ANALYSIS ONLY
+from typing import Union
 from fastapi import FastAPI
 from pydantic import BaseModel 
 from ultralytics import YOLO
@@ -13,7 +14,7 @@ class ImageRequest(BaseModel):
 
 
 app = FastAPI()
-YOLO_MODEL_PATH = "/Users/continental/Desktop/Intern/pt models/yolo11m_2025-06-25.pt"  # Path to your YOLO model file
+YOLO_MODEL_PATH = "yolo11m_2025-06-25.pt"  # Path to your YOLO model file
 model = YOLO(YOLO_MODEL_PATH)
 
 @app.post("/predict/")
@@ -47,7 +48,10 @@ if __name__ == "__main__":
     uvicorn.run(app, port=8000, host="127.0.0.1")"""
 
 
-"""from fastapi import FastAPI, File, UploadFile, HTTPException, Request
+
+
+"""     This commented code is for THREE MODEL ANALYSIS, with different code structure
+from fastapi import FastAPI, File, UploadFile, HTTPException, Request
 from fastapi.responses import HTMLResponse
 from fastapi.templating import Jinja2Templates
 from ultralytics import YOLO
@@ -128,12 +132,14 @@ if __name__ == "__main__":
 from fastapi import FastAPI, File, UploadFile, HTTPException, Request
 from fastapi.responses import HTMLResponse
 from fastapi.templating import Jinja2Templates
+from fastapi.middleware.cors import CORSMiddleware
 from ultralytics import YOLO
 import cv2
 import numpy as np
 import base64
 import io
 from pydantic import BaseModel
+import os
 
 app = FastAPI(
     title="YOLO Model Comparison API",
@@ -142,12 +148,13 @@ app = FastAPI(
 )
 templates = Jinja2Templates(directory="templates")
 
+
+
 # Paths to your YOLO model files
 MODEL_PATHS = {
-    "model1": "yolo11m_890_100e.pt",
-    "model2": "yolo11m_640_100e.pt",
-    "model3": "yolo11l_640_100e.pt",
-    "model4": "yolov11m_640_old.pt"
+    "model1": "yolo11m_890_100e.pt", #890x890 with best performance
+    "model2": "yolo11m_640_100e.pt", #640x640 with same structure as model 1
+    "model3": "yolo11l_640_100e.pt", #YOLO11 Large model, 640x640 YOLO11 Medium model, 640x640
 }
 
 # Load YOLO models at startup

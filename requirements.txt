@@ -4,3 +4,6 @@ ultralytics
 python-multipart
 fastapi[standard]
 streamlit
+uvicorn
+opencv-python-headless
+numpy
