@@ -172,10 +172,10 @@ uploaded_file = st.file_uploader("Choose an image (.jpg, .jpeg, .png)", type=["j
 
 # FastAPI endpoint URLs
 FASTAPI_URLS = {
-    "yolo11 Medium [890]": "http://127.0.0.1:8000/predict/model1/",
-    "yolo11 Medium [640]": "http://127.0.0.1:8000/predict/model2/",
-    "yolo11 Large [640]": "http://127.0.0.1:8000/predict/model3/",
-    "Currently deployed model [640]": "http://127.0.0.1:8000/predict/model4/"
+    "yolo11 Medium [890]": "http://192.168.1.13:8501/predict/model1/",
+    "yolo11 Medium [640]": "http://192.168.1.13:8501/predict/model2/",
+    "yolo11 Large [640]": "http://192.168.1.13:8501/predict/model3/",
+    "Currently deployed model [640]": "http://192.168.1.13:8501/predict/model4/"
 }
 
 if uploaded_file is not None:
