@@ -162,6 +162,7 @@ MODEL_PATHS = {
     "model1": "yolo11m_890_100e.pt", #890x890 with best performance
     "model2": "yolo11m_640_100e.pt", #640x640 with same structure as model 1
     "model3": "yolo11l_640_100e.pt", #YOLO11 Large model, 640x640 YOLO11 Medium model, 640x640
+    "model4": "yolov11m_640_old.pt"  # YOLO11 Medium model, 640x640, old version
 }
 
 # Load YOLO models at startup
