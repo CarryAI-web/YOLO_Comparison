@@ -145,7 +145,7 @@ templates = Jinja2Templates(directory="templates")
 # Paths to your YOLO model files
 MODEL_PATHS = {
     "model1": "yolo11m_890_100e.pt",
-    "model2": "yolov11m_640_old.pt",
+    "model2": "yolo11m_640_100e",
     "model3": "yolo11l_640_100e.pt",
     "model4": "yolov11m_640_old.pt"
 }
