@@ -3,3 +3,4 @@ fastapi
 ultralytics
 python-multipart
 fastapi[standard]
+streamlit

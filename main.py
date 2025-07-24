@@ -144,10 +144,10 @@ templates = Jinja2Templates(directory="templates")
 
 # Paths to your YOLO model files
 MODEL_PATHS = {
-    "model1": "yolov11m_2025-01-09.pt",
-    "model2": "YOLO11s_1280.pt",
-    "model3": "yolo11m_2025-06-25.pt",
-    "model4": "yolo11l_100.pt"
+    "model1": "yolo11m_890_100e.pt",
+    "model2": "yolov11m_640_old.pt",
+    "model3": "yolo11l_640_100e.pt",
+    "model4": "yolov11m_640_old.pt"
 }
 
 # Load YOLO models at startup
