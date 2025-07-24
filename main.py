@@ -148,7 +148,14 @@ app = FastAPI(
 )
 templates = Jinja2Templates(directory="templates")
 
-
+# Add CORS to allow requests from Streamlit Cloud
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["https://carryai-yolo-test.streamlit.app", "http://localhost:8501"],  # Adjust for your Streamlit app's URL
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 
 # Paths to your YOLO model files
 MODEL_PATHS = {
