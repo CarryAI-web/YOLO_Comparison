@@ -175,7 +175,7 @@ FASTAPI_URLS = {
     "yolo11 Medium [890]": "http://127.0.0.1:8000/predict/model1/",
     "yolo11 Medium [640]": "http://127.0.0.1:8000/predict/model2/",
     "yolo11 Large [640]": "http://127.0.0.1:8000/predict/model3/",
-    "Model deployed currently [640]": "http://127.0.0.1:8000/predict/model4/"
+    "Currently deployed model [640]": "http://127.0.0.1:8000/predict/model4/"
 }
 
 if uploaded_file is not None:
