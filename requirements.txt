@@ -1,0 +1,5 @@
+unicorn
+fastapi
+ultralytics
+python-multipart
+fastapi[standard]
