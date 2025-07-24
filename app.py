@@ -187,7 +187,7 @@ if uploaded_file is not None:
     st.image(file_bytes, use_container_width=True)
 
     # Send image to all four FastAPI endpoints
-    st.subheader("Detection Results (All Models are developed in 100 epochs) [Image Size]")
+    st.subheader("Detection Results [Image Size] (All Models are developed in 100 epochs)")
     results = {}
 
     with st.spinner("Running object detection on all models..."):
