@@ -333,10 +333,10 @@ MODEL_COMP_URL = {
 }
 
 Task2_URL = {
-    "Default YOLO11 Medium [640]": "http://127.0.0.1:8005/predict/model6/",
+    "Default YOLO11 Medium [640]": "http://127.0.0.1:8005/predict/model5/",
     "Currently deployed model [640]": "http://127.0.0.1:8005/predict/model4/",
     "YOLO11 Medium [890]": "http://127.0.0.1:8005/predict/model1/",
-    "Pose Detection Model": "http://127.0.0.1:8005/predict/model7/"
+    "Pose Detection Model": "http://127.0.0.1:8005/predict/model6/"
 }
 
 # Function to process detection for a given set of URLs
@@ -431,15 +431,3 @@ if uploaded_file is not None:
     with col2:
         task2_button = st.button("Compare Default YOLO11 Model with Our Model")
 
-    # Execute detection based on button pressed
-    if task1_button:
-        st.session_state.selected_task = "Compare performance of our Trained Models"
-        st.session_state.results = run_detection(file_bytes, MODEL_COMP_URL, "Compare performance of our Trained Models")
-        display_results(*st.session_state.results)
-    elif task2_button:
-        st.session_state.selected_task = "Compare Default YOLO11 Model with Our Model"
-        st.session_state.results = run_detection(file_bytes, Task2_URL, "Compare Default YOLO11 Model with Our Model")
-        display_results(*st.session_state.results)
-    elif st.session_state.selected_task and st.session_state.results:
-        # Redisplay results if page is rerun but no new button is pressed
-        display_results(*st.session_state.results)
