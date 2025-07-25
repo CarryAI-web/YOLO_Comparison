@@ -151,10 +151,7 @@ if uploaded_file is not None:
             summary["Number of Detections"].append(0)
             summary["Average Confidence"].append(0.0)
     st.dataframe(pd.DataFrame(summary))
-"""
 
-
-"""
 import streamlit as st
 import requests
 from PIL import Image

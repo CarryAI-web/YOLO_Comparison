@@ -164,7 +164,7 @@ MODEL_PATHS = {
     "model3": "yolo11l_640_100e.pt", #YOLO11 Large model, 640x640 YOLO11 Medium model, 640x640
     "model4": "yolov11m_640_old.pt",  # YOLO11 Medium model, 640x640, old version
     "model5": "yolo11s_1280_100e.pt", # YOLO11 Small model, 1280x1280
-    "model6": "yolo11m.pt"            # Default YOLO11 Medium model, 640x640
+    "model6": "/home/jetsonnano/YOLO_Comparison/yolo11m.pt" # Default YOLO11 Medium model, 640x640
 }
 
 # Load YOLO models at startup
