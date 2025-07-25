@@ -162,7 +162,9 @@ MODEL_PATHS = {
     "model1": "yolo11m_890_100e.pt", #890x890 with best performance
     "model2": "yolo11m_640_100e.pt", #640x640 with same structure as model 1
     "model3": "yolo11l_640_100e.pt", #YOLO11 Large model, 640x640 YOLO11 Medium model, 640x640
-    "model4": "yolov11m_640_old.pt"  # YOLO11 Medium model, 640x640, old version
+    "model4": "yolov11m_640_old.pt",  # YOLO11 Medium model, 640x640, old version
+    "model5": "yolo11s_1280_100e.pt", # YOLO11 Small model, 1280x1280
+    "model6": "yolo11m.pt"            # Default YOLO11 Medium model, 640x640
 }
 
 # Load YOLO models at startup
@@ -173,7 +175,9 @@ async def load_models():
         "model1": YOLO(MODEL_PATHS["model1"]),
         "model2": YOLO(MODEL_PATHS["model2"]),
         "model3": YOLO(MODEL_PATHS["model3"]),
-        "model4": YOLO(MODEL_PATHS["model4"])
+        "model4": YOLO(MODEL_PATHS["model4"]),
+        "model5": YOLO(MODEL_PATHS["model5"]),
+        "model6": YOLO(MODEL_PATHS["model6"])
     }
 
 # Response model for detection results
@@ -236,10 +240,18 @@ async def predict_model3(file: UploadFile = File(...)):
 async def predict_model4(file: UploadFile = File(...)):
     return await predict_with_model(file, "model4")
 
+@app.post("/predict/model5/", response_model=DetectionResult)
+async def predict_model5(file: UploadFile = File(...)):
+    return await predict_with_model(file, "model5") 
+
+@app.post("/predict/model6/", response_model=DetectionResult)
+async def predict_model6(file: UploadFile = File(...)):     
+    return await predict_with_model(file, "model6")
+
 @app.get("/", response_class=HTMLResponse)
 async def root(request: Request):
     return templates.TemplateResponse("upload.html", {"request": request})
 
-if __name__ == "__main__":
-    import uvicorn
-    uvicorn.run(app, port=8000, host="127.0.0.1")
+# if __name__ == "__main__":
+#     import uvicorn
+#     uvicorn.run(app, port=8005, host="127.0.0.1")

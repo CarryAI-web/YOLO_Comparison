@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>YOLO Model Comparison</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        h1 {
+            color: #333;
+        }
+        .upload-form {
+            border: 1px solid #ddd;
+            padding: 20px;
+            border-radius: 5px;
+            margin-bottom: 20px;
+        }
+        .model-section {
+            margin-bottom: 15px;
+        }
+    </style>
+</head>
+<body>
+    <h1>YOLO Model Comparison</h1>
+    
+    <div class="upload-form">
+        <h2>Upload an Image</h2>
+        <p>Select an image to analyze with different YOLO models:</p>
+        
+        <form id="upload-form" enctype="multipart/form-data">
+            <input type="file" id="image-input" accept="image/jpeg,image/png" required>
+            <button type="button" onclick="analyzeImage()">Analyze with All Models</button>
+        </form>
+    </div>
+    
+    <div id="results-container">
+        <div class="model-section" id="model1-results">
+            <h3>Model 1 (890x890)</h3>
+            <div id="model1-image"></div>
+        </div>
+        
+        <div class="model-section" id="model2-results">
+            <h3>Model 2 (640x640)</h3>
+            <div id="model2-image"></div>
+        </div>
+        
+        <div class="model-section" id="model3-results">
+            <h3>Model 3 (YOLO11 Large)</h3>
+            <div id="model3-image"></div>
+        </div>
+        
+        <div class="model-section" id="model4-results">
+            <h3>Model 4 (YOLO11 Medium, old)</h3>
+            <div id="model4-image"></div>
+        </div>
+    </div>
+    
+    <script>
+        async function analyzeImage() {
+            const fileInput = document.getElementById('image-input');
+            const file = fileInput.files[0];
+            
+            if (!file) {
+                alert('Please select an image file');
+                return;
+            }
+            
+            // Process with each model
+            processModel(file, 'model1', '1');
+            processModel(file, 'model2', '2');
+            processModel(file, 'model3', '3');
+            processModel(file, 'model4', '4');
+        }
+        
+        async function processModel(file, modelEndpoint, modelNumber) {
+            const formData = new FormData();
+            formData.append('file', file);
+            
+            try {
+                const response = await fetch(`/predict/${modelEndpoint}/`, {
+                    method: 'POST',
+                    body: formData
+                });
+                
+                const result = await response.json();
+                
+                // Display the result
+                const imgContainer = document.getElementById(`${modelEndpoint}-image`);
+                imgContainer.innerHTML = `<img src="${result.result_image}" style="max-width:100%">`;
+            } catch (error) {
+                console.error(`Error with ${modelEndpoint}:`, error);
+                document.getElementById(`${modelEndpoint}-image`).innerHTML = 
+                    `<p style="color:red">Error processing image with model ${modelNumber}</p>`;
+            }
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,16 @@
+[Unit]
+Description= CarryAI fastapi yolo analysis
+After=network.target
+
+[Service]
+Type=simple
+ExecStart=/home/jetsonnano/.local/bin/streamlit run /home/jetsonnano/YOLO_Comparison/app.py  --server.port 8006
+PIDFile=/home/jetsonnano/YOLO_Comparison/YOLO_Comparison_streamlit.pid
+RestartSec=5
+Restart=on-failure
+User=jetsonnano
+Group=jetsonnano
+WorkingDirectory=/home/jetsonnano/YOLO_Comparison
+
+[Install]
+WantedBy=multi-user.target

@@ -172,23 +172,34 @@ uploaded_file = st.file_uploader("Choose an image (.jpg, .jpeg, .png)", type=["j
 
 # FastAPI endpoint URLs
 FASTAPI_URLS = {
-    "yolo11 Medium [890]": "http://192.168.1.13:8501/predict/model1/",
-    "yolo11 Medium [640]": "http://192.168.1.13:8501/predict/model2/",
-    "yolo11 Large [640]": "http://192.168.1.13:8501/predict/model3/",
-    "Currently deployed model [640]": "http://192.168.1.13:8501/predict/model4/"
+    "yolo11 Medium [890]": "http://127.0.0.1:8005/predict/model1/",
+    "yolo11 Medium [640]": "http://127.0.0.1:8005/predict/model2/",
+    "yolo11 Large [640]": "http://127.0.0.1:8005/predict/model3/",
+    "Currently deployed model [640]": "http://127.0.0.1:8005/predict/model4/"
 }
 
-if uploaded_file is not None:
-    # Read uploaded file into memory to avoid multiple reads
-    file_bytes = uploaded_file.read()
+Task2_URL = {
+    "Default YOLO11 Medium [640]": "http://127.0.0.1:8005/predict/model6/",
+    "Currently deploying model [640]": "http://127.0.0.1:8005/predict/model4/",
+    "yolo11 Medium [890]": "http://127.0.0.1:8005/predict/model1/"
+}
+
+# Function to process detection for a given set of URLs
+def run_detection(file_bytes, urls, task_name):
+    st.subheader(f"Detection Results - {task_name} [Image Size] (All Models are developed in 100 epochs)")
+    results = {}
+    
+#if uploaded_file is not None:
+#    # Read uploaded file into memory to avoid multiple reads
+#    file_bytes = uploaded_file.read()
 
     # Display uploaded image
-    st.subheader("Uploaded Image")
-    st.image(file_bytes, use_container_width=True)
+#    st.subheader("Uploaded Image")
+#   st.image(file_bytes, use_container_width=True)
 
     # Send image to all four FastAPI endpoints
-    st.subheader("Detection Results [Image Size] (All Models are developed in 100 epochs)")
-    results = {}
+#    st.subheader("Detection Results [Image Size] (All Models are developed in 100 epochs)")
+#    results = {}
 
     with st.spinner("Running object detection on all models..."):
         for model_name, url in FASTAPI_URLS.items():
@@ -253,3 +264,25 @@ if uploaded_file is not None:
             summary["Number of Detections"].append(0)
             summary["Average Confidence"].append(0.0)
     st.dataframe(pd.DataFrame(summary))
+
+
+if uploaded_file is not None:
+    # Read uploaded file into memory
+    file_bytes = uploaded_file.read()
+
+    # Display uploaded image
+    st.subheader("Uploaded Image")
+    st.image(file_bytes, use_container_width=True)
+
+    # Create two buttons for different detection tasks
+    col1, col2 = st.columns(2)
+    with col1:
+        task1_button = st.button("Run YOLO11 Model Comparison")
+    with col2:
+        task2_button = st.button("Run YOLOv8 Model Comparison")
+
+    # Execute detection based on button pressed
+    if task1_button:
+        run_detection(file_bytes, FASTAPI_URLS, "YOLO11 Models")
+    if task2_button:
+        run_detection(file_bytes, Task2_URL, "YOLOv8 Models")
