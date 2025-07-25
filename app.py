@@ -171,7 +171,7 @@ st.write("Upload an image to compare object detection results from four YOLO mod
 uploaded_file = st.file_uploader("Choose an image (.jpg, .jpeg, .png)", type=["jpg", "jpeg", "png"])
 
 # FastAPI endpoint URLs
-FASTAPI_URLS = {
+MODEL_COMP_URL = {
     "yolo11 Medium [890]": "http://127.0.0.1:8005/predict/model1/",
     "yolo11 Medium [640]": "http://127.0.0.1:8005/predict/model2/",
     "yolo11 Large [640]": "http://127.0.0.1:8005/predict/model3/",
@@ -188,7 +188,7 @@ Task2_URL = {
 def run_detection(file_bytes, urls, task_name):
     st.subheader(f"Detection Results - {task_name} [Image Size] (All Models are developed in 100 epochs)")
     results = {}
-    
+
 #if uploaded_file is not None:
 #    # Read uploaded file into memory to avoid multiple reads
 #    file_bytes = uploaded_file.read()
@@ -202,7 +202,7 @@ def run_detection(file_bytes, urls, task_name):
 #    results = {}
 
     with st.spinner("Running object detection on all models..."):
-        for model_name, url in FASTAPI_URLS.items():
+        for model_name, url in MODEL_COMP_URL.items():
             try:
                 # Prepare file for upload using in-memory bytes
                 files = {"file": (uploaded_file.name, io.BytesIO(file_bytes), uploaded_file.type)}
@@ -277,12 +277,12 @@ if uploaded_file is not None:
     # Create two buttons for different detection tasks
     col1, col2 = st.columns(2)
     with col1:
-        task1_button = st.button("Run YOLO11 Model Comparison")
+        task1_button = st.button("Compare performance of our Trained Models")
     with col2:
-        task2_button = st.button("Run YOLOv8 Model Comparison")
+        task2_button = st.button("Compare Default YOLO11 Model with Our Model")
 
     # Execute detection based on button pressed
     if task1_button:
-        run_detection(file_bytes, FASTAPI_URLS, "YOLO11 Models")
+        run_detection(file_bytes, MODEL_COMP_URL, "Compare performance of our Trained Models")
     if task2_button:
-        run_detection(file_bytes, Task2_URL, "YOLOv8 Models")
+        run_detection(file_bytes, Task2_URL, "Compare Default YOLO11 Model with Our Model")
