@@ -184,10 +184,6 @@ Task2_URL = {
     "yolo11 Medium [890]": "http://127.0.0.1:8005/predict/model1/"
 }
 
-# Function to process detection for a given set of URLs
-def run_detection(file_bytes, urls, task_name):
-    st.subheader(f"Detection Results - {task_name} [Image Size] (All Models are developed in 100 epochs)")
-    results = {}
 
 #if uploaded_file is not None:
 #    # Read uploaded file into memory to avoid multiple reads
@@ -201,6 +197,11 @@ def run_detection(file_bytes, urls, task_name):
 #    st.subheader("Detection Results [Image Size] (All Models are developed in 100 epochs)")
 #    results = {}
 
+
+# Function to process detection for a given set of URLs
+def run_detection(file_bytes, urls, task_name):
+    st.subheader(f"Detection Results - {task_name} [Image Size] (All Models are developed in 100 epochs)")
+    results = {}
     with st.spinner("Running object detection on all models..."):
         for model_name, url in MODEL_COMP_URL.items():
             try:
@@ -215,9 +216,14 @@ def run_detection(file_bytes, urls, task_name):
             except requests.exceptions.RequestException as e:
                 results[model_name] = {"error": f"Failed to connect to FastAPI server: {str(e)}"}
 
- # Display results in a 2x2 grid (2 columns per row, 2 rows)
+def display_results(results, task_name):
+    st.subheader(f"Detection Results - {task_name} [Image Size] (All Models are developed in 100 epochs)")
     model_names = list(results.keys())
-    for row in range(2):
+    
+    # Adjust grid for Task 2 (3 models: 2 in first row, 1 in second row)
+    num_cols = 2
+    num_rows = (len(model_names) + 1) // 2
+    for row in range(num_rows):
         with st.container():
             cols = st.columns(2)  # Two columns per row
             for col_idx, model_idx in enumerate([row * 2, row * 2 + 1]):
@@ -286,3 +292,17 @@ if uploaded_file is not None:
         run_detection(file_bytes, MODEL_COMP_URL, "Compare performance of our Trained Models")
     if task2_button:
         run_detection(file_bytes, Task2_URL, "Compare Default YOLO11 Model with Our Model")
+
+    if task1_button:
+        st.session_state.selected_task = "Compare performance of our Trained Models"
+        results, task_name = run_detection(file_bytes, MODEL_COMP_URL, "YOLO11 Models")
+        display_results(results, task_name)
+    elif task2_button:
+        st.session_state.selected_task = "Compare Default YOLO11 Model with Our Model"
+        results, task_name = run_detection(file_bytes, Task2_URL, "YOLOv8 Models")
+        display_results(results, task_name)
+    elif st.session_state.selected_task:
+        # Redisplay results if page is rerun but no new button is pressed
+        if st.session_state.results:
+            results, task_name = st.session_state.results
+            display_results(results, task_name)
