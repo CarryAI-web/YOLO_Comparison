@@ -180,8 +180,7 @@ async def load_models():
         "model3": YOLO(MODEL_PATHS["model3"]),
         "model4": YOLO(MODEL_PATHS["model4"]),
         "model5": YOLO(MODEL_PATHS["model5"]),
-        "model6": YOLO(MODEL_PATHS["model6"]),
-        "model7": YOLO(MODEL_PATHS["model7"])
+        "model6": YOLO(MODEL_PATHS["model6"])
     }
 
 # Response model for detection results
