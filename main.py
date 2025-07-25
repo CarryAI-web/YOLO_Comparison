@@ -164,7 +164,8 @@ MODEL_PATHS = {
     "model3": "yolo11l_640_100e.pt", #YOLO11 Large model, 640x640 YOLO11 Medium model, 640x640
     "model4": "yolov11m_640_old.pt",  # YOLO11 Medium model, 640x640, old version
     "model5": "yolo11s_1280_100e.pt", # YOLO11 Small model, 1280x1280
-    "model6": "/home/jetsonnano/YOLO_Comparison/yolo11m.pt" # Default YOLO11 Medium model, 640x640
+    "model6": "yolo11m.pt", # Default YOLO11 Medium model, 640x640
+    "model7": "yolo11m-pose.pt"
 }
 
 # Load YOLO models at startup
@@ -177,7 +178,8 @@ async def load_models():
         "model3": YOLO(MODEL_PATHS["model3"]),
         "model4": YOLO(MODEL_PATHS["model4"]),
         "model5": YOLO(MODEL_PATHS["model5"]),
-        "model6": YOLO(MODEL_PATHS["model6"])
+        "model6": YOLO(MODEL_PATHS["model6"]),
+        "model7": YOLO(MODEL_PATHS["model7"])
     }
 
 # Response model for detection results
@@ -247,6 +249,10 @@ async def predict_model5(file: UploadFile = File(...)):
 @app.post("/predict/model6/", response_model=DetectionResult)
 async def predict_model6(file: UploadFile = File(...)):     
     return await predict_with_model(file, "model6")
+
+@app.post("/predict/model7/", response_model=DetectionResult)
+async def predict_model7(file: UploadFile = File(...)):
+    return await predict_with_model(file, "model7")
 
 @app.get("/", response_class=HTMLResponse)
 async def root(request: Request):

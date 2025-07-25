@@ -335,7 +335,8 @@ MODEL_COMP_URL = {
 Task2_URL = {
     "Default YOLO11 Medium [640]": "http://127.0.0.1:8005/predict/model6/",
     "Currently deployed model [640]": "http://127.0.0.1:8005/predict/model4/",
-    "YOLO11 Medium [890]": "http://127.0.0.1:8005/predict/model1/"
+    "YOLO11 Medium [890]": "http://127.0.0.1:8005/predict/model1/",
+    "Pose Detection Model": "http://127.0.0.1:8005/predict/model7/"
 }
 
 # Function to process detection for a given set of URLs
