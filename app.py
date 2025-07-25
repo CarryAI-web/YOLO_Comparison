@@ -295,14 +295,14 @@ if uploaded_file is not None:
 
     if task1_button:
         st.session_state.selected_task = "Compare performance of our Trained Models"
-        results, task_name = run_detection(file_bytes, MODEL_COMP_URL, "YOLO11 Models")
+        results, task_name = run_detection(file_bytes, MODEL_COMP_URL, "Compare performance of our Trained Models")
         display_results(results, task_name)
     elif task2_button:
         st.session_state.selected_task = "Compare Default YOLO11 Model with Our Model"
-        results, task_name = run_detection(file_bytes, Task2_URL, "YOLOv8 Models")
+        results, task_name = run_detection(file_bytes, Task2_URL, "Compare Default YOLO11 Model with Our Model")
         display_results(results, task_name)
     elif st.session_state.selected_task:
-        # Redisplay results if page is rerun but no new button is pressed
+        # Redisplay results if page is rerun but no new button is pressed g
         if st.session_state.results:
             results, task_name = st.session_state.results
             display_results(results, task_name)
