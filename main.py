@@ -157,6 +157,9 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
+model = YOLO("yolo11m.pt")
+model2 = YOLO("yolo11m-pose.pt")
+
 # Paths to your YOLO model files
 MODEL_PATHS = {
     "model1": "yolo11m_890_100e.pt", #890x890 with best performance
