@@ -166,7 +166,7 @@ MODEL_PATHS = {
     "model2": "yolo11m_640_100e.pt", #640x640 with same structure as model 1
     "model3": "yolo11l_640_100e.pt", #YOLO11 Large model, 640x640 YOLO11 Medium model, 640x640
     "model4": "yolov11m_640_old.pt",  # YOLO11 Medium model, 640x640, old version
-    "model5": "yolo11m_1ep", # Default YOLO11 Medium model, 640x640
+    "model5": "yolo11m_1ep.pt", # Default YOLO11 Medium model, 640x640
     "model6": model2
 }
 
