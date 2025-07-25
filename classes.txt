@@ -1,0 +1,14 @@
+helmet_bad
+helmet_good
+helmet_none
+vest
+helmet_unknown
+mask_good
+mask_bad
+mask_none
+smoke
+fire
+cigarette
+hotwork
+hotwork_with_glove
+hotwork_no_glove

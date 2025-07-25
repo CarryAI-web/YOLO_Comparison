@@ -158,7 +158,9 @@ app.add_middleware(
 )
 
 model = YOLO("yolo11m.pt")
+model = YOLO("classes.txt").load("yolo11m.pt")  # Default YOLOv11 Medium model, 640x640
 model2 = YOLO("yolo11m-pose.pt")
+model2 = YOLO("classes.txt").load("yolo11m-pose.pt")
 
 # Paths to your YOLO model files
 MODEL_PATHS = {
