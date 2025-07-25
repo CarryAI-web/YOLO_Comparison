@@ -167,7 +167,7 @@ MODEL_PATHS = {
     "model2": "yolo11m_640_100e.pt", #640x640 with same structure as model 1
     "model3": "yolo11l_640_100e.pt", #YOLO11 Large model, 640x640 YOLO11 Medium model, 640x640
     "model4": "yolov11m_640_old.pt",  # YOLO11 Medium model, 640x640, old version
-    "model5": "yolo11m.pt", # Default YOLO11 Medium model, 640x640
+    "model5": results = model(source = file, show=True), # Default YOLO11 Medium model, 640x640
     "model6": model2
 }
 
@@ -246,8 +246,7 @@ async def predict_model4(file: UploadFile = File(...)):
 
 @app.post("/predict/model5/", response_model=DetectionResult)
 async def predict_model5(file: UploadFile = File(...)):
-    results = model(source = file, show=True)
-    return await predict_with_model(file, results) 
+    return await predict_with_model(file, "model5") 
 
 @app.post("/predict/model6/", response_model=DetectionResult)
 async def predict_model6(file: UploadFile = File(...)):     
