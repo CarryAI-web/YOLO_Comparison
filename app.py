@@ -856,6 +856,20 @@ if 'uploaded_file' not in st.session_state:
 if 'language' not in st.session_state:
     st.session_state.language = 'en'  # Default to English only if not set
 
+col_left, col_right = st.columns([4, 1])
+with col_right:
+    col_btn1, col_btn2 = st.columns(2)
+    with col_btn1:
+        lan1 = st.button("English", key="lang_en")
+    with col_btn2:
+        lan2 = st.button("中文", key="lang_zh")
+
+# Update language in session state
+if lan1:
+    st.session_state.language = 'en'
+elif lan2:
+    st.session_state.language = 'zh'
+
 # Get current language translations
 lang = st.session_state.language
 t = translations[lang]
