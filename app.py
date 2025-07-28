@@ -454,4 +454,4 @@ if uploaded_file is not None:
         st.session_state.uploaded_file = None
         st.session_state.results = None
         st.session_state.selected_task = None
-        st.info("Please upload an image to see detection results.")
+        st.info("You can press one of the button to reveal the detection results.")
