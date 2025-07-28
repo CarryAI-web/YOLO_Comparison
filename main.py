@@ -320,12 +320,12 @@ translations = {
 
 # Paths to your YOLO model files
 MODEL_PATHS = {
-    "model1": "yolo11m_890_100e.pt",  # 890x890 with best performance
-    "model2": "yolo11m_640_100e.pt",  # 640x640 with same structure as model 1
-    "model3": "yolo11l_640_100e.pt",  # YOLO11 Large model, 640x640
-    "model4": "yolov11m_640_old.pt",  # YOLO11 Medium model, 640x640, old version
-    "model5": "yolo11m.pt",  # Default YOLO11 Medium model, 640x640
-    "model6": "yolo11m-pose.pt"  # Pose Detection Model
+    "model1": "yolo11m_890_100e.pt",
+    "model2": "yolo11m_640_100e.pt",
+    "model3": "yolo11l_640_100e.pt",
+    "model4": "yolov11m_640_old.pt",
+    "model5": "yolo11m.pt",
+    "model6": "yolo11m-pose.pt"
 }
 
 # Load YOLO models at startup
