@@ -763,12 +763,14 @@ if uploaded_file is not None:
     st.subheader(t["uploaded_image"])
     st.image(file_bytes, use_container_width=True)
 
-    # Create two buttons for different detection tasks
-    col1, col2 = st.columns([4, 1])
-    with col1:
-        task1_button = st.button(t["task1_button"])
-    with col2:
-        task2_button = st.button(t["task2_button"])
+# Create two buttons for different detection tasks
+    col_left, col_right = st.columns([4, 1])
+    with col_right:
+        col_btn1, col_btn2 = st.columns(2)
+        with col_btn1:
+            task1_button = st.button(t["task1_button"], key="task1")
+        with col_btn2:
+            task2_button = st.button(t["task2_button"], key="task2")
 
     # Execute detection based on button pressed
     if task1_button:
@@ -788,10 +790,3 @@ else:
     st.session_state.selected_task = None
     st.info(t["no_image_prompt"])
 
-#with col_right:
-##col_btn1, col_btn2 = st.columns(2)
-##with col_btn1:
-###task1_button = st.button(t["task1_button"], key="task1")
-##with col_btn2:
-###task2_button = st.button(t["task2_button"], key="task2")
-##col1, col2 = st.columns(2)
