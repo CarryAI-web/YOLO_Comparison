@@ -472,7 +472,7 @@ import io
 import pandas as pd
 
 # Streamlit page configuration
-lan1, lan2 = st.columns([4, 4])
+lan1, lan2 = st.columns([4, 1], gap="small")
 with lan1: st.button("English")
 with lan2: st.button("中文")
 
