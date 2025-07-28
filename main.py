@@ -258,7 +258,79 @@ async def root(request: Request):
 
 # if __name__ == "__main__":
 #     import uvicorn
-#     uvicorn.run(app, port=8005, host="127.0.0.1")"""
+#     uvicorn.run(app, port=8005, host="127.0.0.1")
+
+
+
+
+
+async def predict_with_model(file: UploadFile, model_name: str, lang = "en"):
+    lang = lang if lang in translations else "en"  # Default to English if invalid
+    t = translations[lang]
+
+    if not file.filename.endswith(('.jpg', '.jpeg', '.png')):
+        raise HTTPException(status_code=400, detail=t["invalid_file"])
+
+    # Read the image file
+    contents = await file.read()
+    np_arr = np.frombuffer(contents, np.uint8)
+    image = cv2.imdecode(np_arr, cv2.IMREAD_COLOR)
+
+    if image is None:
+        raise HTTPException(status_code=400, detail=t["decode_error"])
+
+    # Perform inference
+    model = models[model_name]
+    results = model(image)
+    rst_img = results[0].plot()  # Get labeled image with bounding boxes and labels
+
+    # Convert to base64 for JSON response
+    _, buffer = cv2.imencode('.jpg', rst_img)
+    img_base64 = base64.b64encode(buffer).decode('utf-8')
+
+    # Extract detection details
+    detections = results[0].boxes.data.cpu().numpy().tolist()  # [x1, y1, x2, y2, conf, class]
+
+    return {
+        "filename": file.filename,
+        "result_image": f"data:image/jpeg;base64,{img_base64}",
+        "detections": detections,
+        "model_name": t["model_names"][model_name]
+    }
+
+# Endpoints for each model
+@app.post("/predict/model1/", response_model=DetectionResult)
+async def predict_model1(file: UploadFile = File(...), lang = "en"):
+    return await predict_with_model(file, "model1", lang)
+
+@app.post("/predict/model2/", response_model=DetectionResult)
+async def predict_model2(file: UploadFile = File(...), lang: str = "en"):
+    return await predict_with_model(file, "model2", lang)
+
+@app.post("/predict/model3/", response_model=DetectionResult)
+async def predict_model3(file: UploadFile = File(...), lang: str = "en"):
+    return await predict_with_model(file, "model3", lang)
+
+@app.post("/predict/model4/", response_model=DetectionResult)
+async def predict_model4(file: UploadFile = File(...), lang: str = "en"):
+    return await predict_with_model(file, "model4", lang)
+
+@app.post("/predict/model5/", response_model=DetectionResult)
+async def predict_model5(file: UploadFile = File(...), lang: str = "en"):
+    return await predict_with_model(file, "model5", lang)
+
+@app.post("/predict/model6/", response_model=DetectionResult)
+async def predict_model6(file: UploadFile = File(...), lang: str = "en"):
+    return await predict_with_model(file, "model6", lang)
+
+@app.get("/", response_class=HTMLResponse)
+async def root(request: Request):
+    return templates.TemplateResponse("upload.html", {"request": request})
+
+
+ """
+
+
 
 
 
@@ -348,70 +420,150 @@ class DetectionResult(BaseModel):
     detections: list
     model_name: str
 
-# Generic prediction function
-async def predict_with_model(file: UploadFile, model_name: str, lang: str = "en"):
-    lang = lang if lang in translations else "en"  # Default to English if invalid
-    t = translations[lang]
 
-    if not file.filename.endswith(('.jpg', '.jpeg', '.png')):
-        raise HTTPException(status_code=400, detail=t["invalid_file"])
+count = 1
 
-    # Read the image file
-    contents = await file.read()
-    np_arr = np.frombuffer(contents, np.uint8)
-    image = cv2.imdecode(np_arr, cv2.IMREAD_COLOR)
+async def c_lan(lang: str):
+    count = count + 1
+    if count % 2 == 0:
+        change = False
+    else:
+        change = False
+    if change == True:
+        # Generic prediction function
+        async def predict_with_model(file: UploadFile, model_name: str, lang = "en"):
+            lang = lang if lang in translations else "en"  # Default to English if invalid
+            t = translations[lang]
 
-    if image is None:
-        raise HTTPException(status_code=400, detail=t["decode_error"])
+            if not file.filename.endswith(('.jpg', '.jpeg', '.png')):
+                raise HTTPException(status_code=400, detail=t["invalid_file"])
 
-    # Perform inference
-    model = models[model_name]
-    results = model(image)
-    rst_img = results[0].plot()  # Get labeled image with bounding boxes and labels
+            # Read the image file
+            contents = await file.read()
+            np_arr = np.frombuffer(contents, np.uint8)
+            image = cv2.imdecode(np_arr, cv2.IMREAD_COLOR)
 
-    # Convert to base64 for JSON response
-    _, buffer = cv2.imencode('.jpg', rst_img)
-    img_base64 = base64.b64encode(buffer).decode('utf-8')
+            if image is None:
+                raise HTTPException(status_code=400, detail=t["decode_error"])
 
-    # Extract detection details
-    detections = results[0].boxes.data.cpu().numpy().tolist()  # [x1, y1, x2, y2, conf, class]
+            # Perform inference
+            model = models[model_name]
+            results = model(image)
+            rst_img = results[0].plot()  # Get labeled image with bounding boxes and labels
 
-    return {
-        "filename": file.filename,
-        "result_image": f"data:image/jpeg;base64,{img_base64}",
-        "detections": detections,
-        "model_name": t["model_names"][model_name]
-    }
+            # Convert to base64 for JSON response
+            _, buffer = cv2.imencode('.jpg', rst_img)
+            img_base64 = base64.b64encode(buffer).decode('utf-8')
 
-# Endpoints for each model
-@app.post("/predict/model1/", response_model=DetectionResult)
-async def predict_model1(file: UploadFile = File(...), lang: str = "en"):
-    return await predict_with_model(file, "model1", lang)
+            # Extract detection details
+            detections = results[0].boxes.data.cpu().numpy().tolist()  # [x1, y1, x2, y2, conf, class]
 
-@app.post("/predict/model2/", response_model=DetectionResult)
-async def predict_model2(file: UploadFile = File(...), lang: str = "en"):
-    return await predict_with_model(file, "model2", lang)
+            return {
+                        "filename": file.filename,
+                        "result_image": f"data:image/jpeg;base64,{img_base64}",
+                        "detections": detections,
+                        "model_name": t["model_names"][model_name]
+            }
 
-@app.post("/predict/model3/", response_model=DetectionResult)
-async def predict_model3(file: UploadFile = File(...), lang: str = "en"):
-    return await predict_with_model(file, "model3", lang)
+        # Endpoints for each model
+        @app.post("/predict/model1/", response_model=DetectionResult)
+        async def predict_model1(file: UploadFile = File(...), lang = "en"):
+            return await predict_with_model(file, "model1", lang)
 
-@app.post("/predict/model4/", response_model=DetectionResult)
-async def predict_model4(file: UploadFile = File(...), lang: str = "en"):
-    return await predict_with_model(file, "model4", lang)
+        @app.post("/predict/model2/", response_model=DetectionResult)
+        async def predict_model2(file: UploadFile = File(...), lang: str = "en"):
+            return await predict_with_model(file, "model2", lang)
 
-@app.post("/predict/model5/", response_model=DetectionResult)
-async def predict_model5(file: UploadFile = File(...), lang: str = "en"):
-    return await predict_with_model(file, "model5", lang)
+        @app.post("/predict/model3/", response_model=DetectionResult)
+        async def predict_model3(file: UploadFile = File(...), lang: str = "en"):
+            return await predict_with_model(file, "model3", lang)
 
-@app.post("/predict/model6/", response_model=DetectionResult)
-async def predict_model6(file: UploadFile = File(...), lang: str = "en"):
-    return await predict_with_model(file, "model6", lang)
+        @app.post("/predict/model4/", response_model=DetectionResult)
+        async def predict_model4(file: UploadFile = File(...), lang: str = "en"):
+            return await predict_with_model(file, "model4", lang)
 
-@app.get("/", response_class=HTMLResponse)
-async def root(request: Request):
-    return templates.TemplateResponse("upload.html", {"request": request})
+        @app.post("/predict/model5/", response_model=DetectionResult)
+        async def predict_model5(file: UploadFile = File(...), lang: str = "en"):
+            return await predict_with_model(file, "model5", lang)
+
+        @app.post("/predict/model6/", response_model=DetectionResult)
+        async def predict_model6(file: UploadFile = File(...), lang: str = "en"):
+            return await predict_with_model(file, "model6", lang)
+
+        @app.get("/", response_class=HTMLResponse)
+        async def root(request: Request):
+            return templates.TemplateResponse("upload.html", {"request": request})
 
 # if __name__ == "__main__":
-#     import uvicorn
-#     uvicorn.run(app, port=8005, host="127.0.0.1")
+#            import uvicorn
+#            uvicorn.run(app, port=8005, host="127.0.0.1")
+        return count
+
+    else:
+        # Generic prediction function
+        async def predict_with_model(file: UploadFile, model_name: str, lang = "zh"):
+            lang = lang if lang in translations else "zh" 
+            t = translations[lang]
+
+            if not file.filename.endswith(('.jpg', '.jpeg', '.png')):
+                raise HTTPException(status_code=400, detail=t["invalid_file"])
+
+            # Read the image file
+            contents = await file.read()
+            np_arr = np.frombuffer(contents, np.uint8)
+            image = cv2.imdecode(np_arr, cv2.IMREAD_COLOR)
+
+            if image is None:
+                raise HTTPException(status_code=400, detail=t["decode_error"])
+
+            # Perform inference
+            model = models[model_name]
+            results = model(image)
+            rst_img = results[0].plot()  # Get labeled image with bounding boxes and labels
+
+            # Convert to base64 for JSON response
+            _, buffer = cv2.imencode('.jpg', rst_img)
+            img_base64 = base64.b64encode(buffer).decode('utf-8')
+
+            # Extract detection details
+            detections = results[0].boxes.data.cpu().numpy().tolist()  # [x1, y1, x2, y2, conf, class]
+
+            return {
+                        "filename": file.filename,
+                        "result_image": f"data:image/jpeg;base64,{img_base64}",
+                        "detections": detections,
+                        "model_name": t["model_names"][model_name]
+            }
+
+        # Endpoints for each model
+        @app.post("/predict/model1/", response_model=DetectionResult)
+        async def predict_model1(file: UploadFile = File(...), lang = "zh"):
+            return await predict_with_model(file, "model1", lang)
+
+        @app.post("/predict/model2/", response_model=DetectionResult)
+        async def predict_model2(file: UploadFile = File(...), lang: str = "zh"):
+            return await predict_with_model(file, "model2", lang)
+
+        @app.post("/predict/model3/", response_model=DetectionResult)
+        async def predict_model3(file: UploadFile = File(...), lang: str = "zh"):
+            return await predict_with_model(file, "model3", lang)
+
+        @app.post("/predict/model4/", response_model=DetectionResult)
+        async def predict_model4(file: UploadFile = File(...), lang: str = "zh"):
+            return await predict_with_model(file, "model4", lang)
+
+        @app.post("/predict/model5/", response_model=DetectionResult)
+        async def predict_model5(file: UploadFile = File(...), lang: str = "zh"):
+            return await predict_with_model(file, "model5", lang)
+
+        @app.post("/predict/model6/", response_model=DetectionResult)
+        async def predict_model6(file: UploadFile = File(...), lang: str = "zh"):
+            return await predict_with_model(file, "model6", lang)
+
+        @app.get("/", response_class=HTMLResponse)
+        async def root(request: Request):
+            return templates.TemplateResponse("upload.html", {"request": request})
+
+# if __name__ == "__main__":
+#            import uvicorn
+#            uvicorn.run(app, port=8005, host="127.0.0.1")

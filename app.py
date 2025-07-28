@@ -851,8 +851,10 @@ with col_right:
 # Update language in session state
 if lan1:
     st.session_state.language = 'en'
+    requests.get("http://127.0.0.1:8005/c_lan")
 elif lan2:
     st.session_state.language = 'zh'
+    requests.get("http://127.0.0.1:8005/c_lan")
 
 # Get current language translations
 lang = st.session_state.language
