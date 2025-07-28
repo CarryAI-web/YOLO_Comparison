@@ -480,8 +480,6 @@ with col_right:
     with col_btn2:
         lan2 = st.button("中文")
 
-lan1 = True
-
 if lan1 == True:
     st.set_page_config(page_title="YOLO Model Comparison", page_icon="🔍", layout="wide")
     st.title("YOLO Model Comparison")
