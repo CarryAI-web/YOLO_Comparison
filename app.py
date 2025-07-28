@@ -474,6 +474,7 @@ import pandas as pd
 # Streamlit page configuration
 col_left, col_right = st.columns([4, 1])
 with col_right: 
+    lan1, lan2 = st.columns(2)
     lan1 = st.button("English")
     lan2 = st.button("中文")
 
