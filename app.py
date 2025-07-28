@@ -785,7 +785,24 @@ else:
     st.session_state.uploaded_file = None
     st.session_state.results = None
     st.session_state.selected_task = None
-    st.info(t["no_image_prompt"])"""
+    st.info(t["no_image_prompt"])
+    
+    # Language selection buttons
+col_left, col_right = st.columns([4, 1])
+with col_right:
+    col_btn1, col_btn2 = st.columns(2)
+    with col_btn1:
+        lan1 = st.button("English", key="lang_en")
+    with col_btn2:
+        lan2 = st.button("中文", key="lang_zh")
+
+# Update language in session state
+if lan1:
+    st.session_state.language = 'en'
+    requests.get("http://127.0.0.1:8005/c_lan")
+elif lan2:
+    st.session_state.language = 'zh'
+    requests.get("http://127.0.0.1:8005/c_lan") """
 
 
 
@@ -838,23 +855,6 @@ if 'uploaded_file' not in st.session_state:
     st.session_state.uploaded_file = None
 if 'language' not in st.session_state:
     st.session_state.language = 'en'  # Default to English only if not set
-
-# Language selection buttons
-col_left, col_right = st.columns([4, 1])
-with col_right:
-    col_btn1, col_btn2 = st.columns(2)
-    with col_btn1:
-        lan1 = st.button("English", key="lang_en")
-    with col_btn2:
-        lan2 = st.button("中文", key="lang_zh")
-
-# Update language in session state
-if lan1:
-    st.session_state.language = 'en'
-    requests.get("http://127.0.0.1:8005/c_lan")
-elif lan2:
-    st.session_state.language = 'zh'
-    requests.get("http://127.0.0.1:8005/c_lan")
 
 # Get current language translations
 lang = st.session_state.language
