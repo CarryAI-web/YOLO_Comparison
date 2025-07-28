@@ -320,6 +320,8 @@ st.write("Upload an image and choose a detection task to compare object detectio
 if 'selected_task' not in st.session_state:
     st.session_state.selected_task = None
     st.session_state.results = None
+if 'uploaded_file' not in st.session_state:
+    st.session_state.uploaded_file = None
 
 # File uploader
 uploaded_file = st.file_uploader("Choose an image (.jpg, .jpeg, .png)", type=["jpg", "jpeg", "png"])
@@ -417,6 +419,11 @@ def display_results(results, task_name):
     st.dataframe(pd.DataFrame(summary))
 
 if uploaded_file is not None:
+
+    if uploaded_file != st.session_state.uploaded_file:
+        st.session_state.uploaded_file = uploaded_file
+        st.session_state.results = None
+        st.session_state.selected_task = None
     # Read uploaded file into memory
     file_bytes = uploaded_file.read()
 
