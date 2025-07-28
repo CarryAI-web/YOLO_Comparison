@@ -403,7 +403,7 @@ MODEL_PATHS = {
     "model3": "yolo11l_640_100e.pt", #YOLO11 Large model, 640x640 YOLO11 Medium model, 640x640
     "model4": "yolov11m_640_old.pt",  # YOLO11 Medium model, 640x640, old version
     "model5": "yolo11m.pt", # Default YOLO11 Medium model, 640x640
-    "model6": "yolo11m-pose.pt""
+    "model6": "yolo11m-pose.pt"
 }
 
 # Load YOLO models at startup
