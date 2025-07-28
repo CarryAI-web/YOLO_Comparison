@@ -472,11 +472,13 @@ import io
 import pandas as pd
 
 # Streamlit page configuration
-col_left, col_right = st.columns([3, 2])
+col_left, col_right = st.columns([4, 1])
 with col_right: 
-    lan1, lan2 = st.columns(2)
-    lan1 = st.button("English")
-    lan2 = st.button("中文")
+    col_btn1, col_btn2 = st.columns(2)
+    with col_btn1:
+        lan1 = st.button("English")
+    with col_btn2:
+        lan2 = st.button("中文")
 
 st.set_page_config(page_title="YOLO Model Comparison", page_icon="🔍", layout="wide")
 st.title("YOLO Model Comparison")
