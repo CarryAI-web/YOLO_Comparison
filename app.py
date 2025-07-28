@@ -450,3 +450,8 @@ if uploaded_file is not None:
     elif st.session_state.selected_task and st.session_state.results:
         # Redisplay results if page is rerun but no new button is pressed
         display_results(*st.session_state.results)
+    else:
+        st.session_state.uploaded_file = None
+        st.session_state.results = None
+        st.session_state.selected_task = None
+        st.info("Please upload an image to see detection results.")
