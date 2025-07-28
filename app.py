@@ -640,7 +640,7 @@ with col_right:
         lan2 = st.button("中文", key="lang_zh")
 
 # Update language in session state
-if (lan1 == False and lan2 == False) or lan1 == True:
+if lan1 == True:
     st.session_state.language = 'en'
 elif lan2 == True:
     st.session_state.language = 'zh'
