@@ -21,8 +21,8 @@ translations = {
         "task2_button": "Compare Default YOLO11 Model with Our Developed Model",
         "spinner": "Running object detection for {task_name}...",
         "Model": "Model",
-        "Number_of_Detections": "Number of Detections",
-        "Average_Confidence": "Average Confidence",
+        "Number of Detections": "Number of Detections",
+        "Average Confidence": "Average Confidence",
         "class": "Class",
         "confidence": "Confidence",
     },
@@ -41,8 +41,8 @@ translations = {
         "task2_button": "比較預設模型與自行訓練模型的性能",
         "spinner": "正在為 {task_name} 進行物件偵察...",
         "Model": "模型",
-        "Number_of_Detections": "偵察數量",
-        "Average_Confidence": "平均置信度",
+        "Number of Detections": "偵察數量",
+        "Average Confidence": "平均置信度",
         "class": "類別",
         "confidence": "置信水平",
     }
@@ -160,19 +160,19 @@ def display_results(results, task_name):
     st.subheader(t["comparison_summary"].format(task_name=task_name))
     summary = {
         "Model": [],
-        "Number_of_Detections": [],
-        "Average_Confidence": []
+        "Number of Detections": [],
+        "Average Confidence": []
     }
     for model_name, result in results.items():
         if "error" not in result and result["detections"]:
             summary["Model"].append(model_name)
             summary["Number of Detections"].append(len(result["detections"]))
             confidences = [d[4] for d in result["detections"]]
-            summary["Average_Confidence"].append(round(sum(confidences) / len(confidences), 2) if confidences else 0.0)
+            summary["Average Confidence"].append(round(sum(confidences) / len(confidences), 2) if confidences else 0.0)
         else:
             summary["Model"].append(model_name)
-            summary["Number_of_Detections"].append(0)
-            summary["Average_Confidence"].append(0.0)
+            summary["Number of Detections"].append(0)
+            summary["Average Confidence"].append(0.0)
     st.dataframe(pd.DataFrame(summary))
 
 if uploaded_file is not None:
