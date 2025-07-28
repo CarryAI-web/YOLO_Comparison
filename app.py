@@ -472,19 +472,16 @@ import io
 import pandas as pd
 
 # Streamlit page configuration
-st.set_page_config(page_title="YOLO Model Comparison", page_icon="🔍", layout="wide")
-st.title("YOLO Model Comparison")
 col_left, col_right = st.columns([4, 1])
 with col_right: 
     lan1 = st.button("English")
     lan2 = st.button("中文")
+
+st.set_page_config(page_title="YOLO Model Comparison", page_icon="🔍", layout="wide")
+st.title("YOLO Model Comparison")
 st.write("Upload an image and choose a detection task to compare object detection results.")
 
-if lan1 == True:
-    st.set_page_config(page_title="YOLO Model Comparison", page_icon="🔍", layout="wide")
-    st.title("YOLO Model Comparison")
-    st.write("Upload an image and choose a detection task to compare object detection results.")
-elif lan2 == True:
+if lan2 == True:
     st.set_page_config(page_title="YOLO 模型評測", page_icon="🔍", layout="wide")
     st.title("YOLO 模型評測")
     st.write("請上載一張圖片以進行不同 YOLO 模型比較")
