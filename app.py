@@ -628,8 +628,7 @@ if 'selected_task' not in st.session_state:
     st.session_state.results = None
 if 'uploaded_file' not in st.session_state:
     st.session_state.uploaded_file = None
-if 'language' not in st.session_state:
-    st.session_state.language = 'en'  # Default to English
+st.session_state.language = 'en'  # Default to English
 
 # Language selection buttons
 col_left, col_right = st.columns([4, 1])
