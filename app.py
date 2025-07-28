@@ -382,7 +382,7 @@ def display_results(results, task_name):
                         st.error(result["error"])
                     else:
                         # Display labeled image
-                        st.image(result["result_image"], caption=f"Results from {model_name}", use_column_width=True)
+                        st.image(result["result_image"], caption=f"Results from {model_name}", use_container_width=True)
 
                         # Display detection details
                         if result["detections"]:
