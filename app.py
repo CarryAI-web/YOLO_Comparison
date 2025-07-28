@@ -480,10 +480,16 @@ with col_right:
     with col_btn2:
         lan2 = st.button("中文")
 
-st.set_page_config(page_title="YOLO Model Comparison", page_icon="🔍", layout="wide")
-st.title("YOLO Model Comparison")
-st.write("Upload an image and choose a detection task to compare object detection results.")
+lan1 == True
 
+if lan1 == True:
+    st.set_page_config(page_title="YOLO Model Comparison", page_icon="🔍", layout="wide")
+    st.title("YOLO Model Comparison")
+    st.write("Upload an image and choose a detection task to compare object detection results.")
+elif lan2 == True:
+    st.set_page_config(page_title="YOLO 模型評測", page_icon="🔍", layout="wide")
+    st.title("YOLO 模型評測")
+    st.write("請上載一張圖片以進行不同 YOLO 模型比較")
 # Initialize session state
 if 'selected_task' not in st.session_state:
     st.session_state.selected_task = None
