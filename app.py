@@ -57,6 +57,7 @@ if 'uploaded_file' not in st.session_state:
 if 'language' not in st.session_state:
     st.session_state.language = 'en'  # Default to English only if not set
 
+# Language selection buttons
 col_left, col_right = st.columns([4, 1])
 with col_right:
     col_btn1, col_btn2 = st.columns(2)
@@ -83,6 +84,7 @@ st.write(t["upload_prompt"])
 # File uploader
 uploaded_file = st.file_uploader("Choose an image (.jpg, .jpeg, .png)", type=["jpg", "jpeg", "png"])
 
+# Model name translations
 if st.session_state.language == "en":
     # FastAPI endpoint URLs
     MODEL_COMP_URL = {
@@ -114,6 +116,7 @@ elif st.session_state.language == "zh":
         "YOLO11 Medium [890]": "http://127.0.0.1:8005/predict/model1/",
         "人體姿態模型": "http://127.0.0.1:8005/predict/model6/"
     }
+
 # Function to process detection for a given set of URLs
 def run_detection(file_bytes, urls, task_name):
     results = {}
@@ -136,7 +139,7 @@ def run_detection(file_bytes, urls, task_name):
     
     return results, task_name
 
-
+# Results table and summary display with translations
 if st.session_state.language == "zh":
     # Function to display results
     def display_results(results, task_name):
@@ -197,8 +200,6 @@ elif st.session_state.language == "en":
     def display_results(results, task_name):
         st.subheader(t["detection_results"].format(task_name=task_name))
         model_names = list(results.keys())
-    
-        # Use 2x2 grid for both Task 1 and Task 2
         num_cols = 2
         num_rows = (len(model_names) + num_cols - 1) // num_cols
     
@@ -248,6 +249,7 @@ elif st.session_state.language == "en":
                 summary["Average Confidence"].append(0.0)
         st.dataframe(pd.DataFrame(summary))
 
+# File upload
 if uploaded_file is not None:
     if uploaded_file != st.session_state.uploaded_file:
         st.session_state.uploaded_file = uploaded_file
@@ -260,14 +262,13 @@ if uploaded_file is not None:
     st.subheader(t["uploaded_image"])
     st.image(file_bytes, use_container_width=True)
 
-    # Create two buttons for different detection tasks
+    # Task selection buttons
     col1, col2 = st.columns(2)
     with col1:
         task1_button = st.button(t["task1_button"], key="task1")
     with col2:
         task2_button = st.button(t["task2_button"], key="task2")
 
-    # Execute detection based on button pressed
     if task1_button:
         st.session_state.selected_task = t["task1_button"]
         st.session_state.results = run_detection(file_bytes, MODEL_COMP_URL, t["task1_button"])
