@@ -91,33 +91,33 @@ elif st.session_state.language == "zh":
 if st.session_state.language == "en":
     # FastAPI endpoint URLs
     MODEL_COMP_URL = {
-        "YOLO11 Medium [890]": "http://127.0.0.1:8005/predict/model1/",
         "YOLO11 Medium [640]": "http://127.0.0.1:8005/predict/model2/",
+        "YOLO11 Medium [890]": "http://127.0.0.1:8005/predict/model1/",
         "YOLO11 Large [640]": "http://127.0.0.1:8005/predict/model3/",
         "Currently deployed model [640]": "http://127.0.0.1:8005/predict/model4/"
     }
 
     Task2_URL = {
         "Default YOLO11 Medium [640]": "http://127.0.0.1:8005/predict/model5/",
+        "Pose Detection Model": "http://127.0.0.1:8005/predict/model6/",
         "Currently deployed model [640]": "http://127.0.0.1:8005/predict/model4/",
-        "YOLO11 Medium [890]": "http://127.0.0.1:8005/predict/model1/",
-        "Pose Detection Model": "http://127.0.0.1:8005/predict/model6/"
+        "YOLO11 Medium [890]": "http://127.0.0.1:8005/predict/model1/"   
     }
 
 elif st.session_state.language == "zh":
     # FastAPI endpoint URLs
     MODEL_COMP_URL = {
-        "YOLO11 Medium [890]": "http://127.0.0.1:8005/predict/model1/",
         "YOLO11 Medium [640]": "http://127.0.0.1:8005/predict/model2/",
+        "YOLO11 Medium [890]": "http://127.0.0.1:8005/predict/model1/",
         "YOLO11 Large [640]": "http://127.0.0.1:8005/predict/model3/",
         "現正使用中的模型 [640]": "http://127.0.0.1:8005/predict/model4/"
     }
 
     Task2_URL = {
         "YOLO11 默認模型 [640]": "http://127.0.0.1:8005/predict/model5/",
+        "人體姿態模型": "http://127.0.0.1:8005/predict/model6/",
         "現正使用中的模型 [640]": "http://127.0.0.1:8005/predict/model4/",
-        "YOLO11 Medium [890]": "http://127.0.0.1:8005/predict/model1/",
-        "人體姿態模型": "http://127.0.0.1:8005/predict/model6/"
+        "YOLO11 Medium [890]": "http://127.0.0.1:8005/predict/model1/"        
     }
 
 # Function to process detection for a given set of URLs
