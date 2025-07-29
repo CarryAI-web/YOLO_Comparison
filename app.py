@@ -84,7 +84,7 @@ st.title(t["title"])
 st.write(t["upload_prompt"])
 
 # File uploader
-uploaded_file = st.file_uploader("file_uploader", type=["jpg", "jpeg", "png"])
+uploaded_file = st.file_uploader(type=["jpg", "jpeg", "png"])
 
 # Model name translations
 if st.session_state.language == "en":
