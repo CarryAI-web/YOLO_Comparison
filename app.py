@@ -143,8 +143,8 @@ if st.session_state.language == "zh":
         st.subheader(t["detection_results"].format(task_name=task_name))
         model_names = list(results.keys())
     
-        # Use 2x2 grid for Task 1 (4 models), 3x1 grid for Task 2 (3 models)
-        num_cols = 2 if task_name == t["task1_button"] else 1
+        # Use 2x2 grid for both Task 1 and Task 2
+        num_cols = 2
         num_rows = (len(model_names) + num_cols - 1) // num_cols
     
         for row in range(num_rows):
@@ -161,16 +161,16 @@ if st.session_state.language == "zh":
                             # Display labeled image
                             st.image(result["result_image"], caption=t["results_caption"].format(model_name=model_name), use_container_width=True)
 
-                           # Display detection details
+                            # Display detection details
                             if result["detections"]:
                                 st.write(t["detection_details"])
                                 df = pd.DataFrame(
                                     result["detections"],
-                                    columns=["x1", "y1", "x2", "y2", "信賴區間", "類別"]
+                                    columns=["x1", "y1", "x2", "y2", "信賴度", "類別"]
                                 )
                                 df["類別"] = df["類別"].astype(int)
-                                df["信賴區間"] = df["信賴區間"].round(2)
-                                st.dataframe(df[["類別", "信賴區間", "x1", "y1", "x2", "y2"]])
+                                df["信賴度"] = df["信賴度"].round(2)
+                                st.dataframe(df[["類別", "信賴度", "x1", "y1", "x2", "y2"]])
                             else:
                                 st.write(t["no_objects"])
 
@@ -194,7 +194,6 @@ if st.session_state.language == "zh":
         st.dataframe(pd.DataFrame(summary))
 
 elif st.session_state.language == "en":
-
     def display_results(results, task_name):
         st.subheader(t["detection_results"].format(task_name=task_name))
         model_names = list(results.keys())
@@ -229,12 +228,6 @@ elif st.session_state.language == "en":
                                 st.dataframe(df[["class", "confidence", "x1", "y1", "x2", "y2"]])
                             else:
                                 st.write(t["no_objects"])
-
-
-
-
-
-
 
     # Summary metrics
         st.subheader(t["comparison_summary"].format(task_name=task_name))
