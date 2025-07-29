@@ -120,60 +120,118 @@ def run_detection(file_bytes, urls, task_name):
     
     return results, task_name
 
-# Function to display results
-def display_results(results, task_name):
-    st.subheader(t["detection_results"].format(task_name=task_name))
-    model_names = list(results.keys())
-    
-    # Use 2x2 grid for Task 1 (4 models), 3x1 grid for Task 2 (3 models)
-    num_cols = 2 if task_name == t["task1_button"] else 1
-    num_rows = (len(model_names) + num_cols - 1) // num_cols
-    
-    for row in range(num_rows):
-        with st.container():
-            cols = st.columns(num_cols)
-            for col_idx, model_idx in enumerate(range(row * num_cols, min((row + 1) * num_cols, len(model_names)))):
-                model_name = model_names[model_idx]
-                result = results[model_name]
-                with cols[col_idx % num_cols]:
-                    st.subheader(model_name)
-                    if "error" in result:
-                        st.error(result["error"])
-                    else:
-                        # Display labeled image
-                        st.image(result["result_image"], caption=t["results_caption"].format(model_name=model_name), use_container_width=True)
 
-                        # Display detection details
-                        if result["detections"]:
-                            st.write(t["detection_details"])
-                            df = pd.DataFrame(
-                                result["detections"],
-                                columns=["x1", "y1", "x2", "y2", "confidence", "class"]
-                            )
-                            df["class"] = df["class"].astype(int)
-                            df["confidence"] = df["confidence"].round(2)
-                            st.dataframe(df[["class", "confidence", "x1", "y1", "x2", "y2"]])
+if st.session_state.language == "zh":
+    # Function to display results
+    def display_results(results, task_name):
+        st.subheader(t["detection_results"].format(task_name=task_name))
+        model_names = list(results.keys())
+    
+        # Use 2x2 grid for Task 1 (4 models), 3x1 grid for Task 2 (3 models)
+        num_cols = 2 if task_name == t["task1_button"] else 1
+        num_rows = (len(model_names) + num_cols - 1) // num_cols
+    
+        for row in range(num_rows):
+            with st.container():
+                cols = st.columns(num_cols)
+                for col_idx, model_idx in enumerate(range(row * num_cols, min((row + 1) * num_cols, len(model_names)))):
+                    model_name = model_names[model_idx]
+                    result = results[model_name]
+                    with cols[col_idx % num_cols]:
+                        st.subheader(model_name)
+                        if "error" in result:
+                            st.error(result["error"])
                         else:
-                            st.write(t["no_objects"])
+                            # Display labeled image
+                            st.image(result["result_image"], caption=t["results_caption"].format(model_name=model_name), use_container_width=True)
+
+                           # Display detection details
+                            if result["detections"]:
+                                st.write(t["detection_details"])
+                                df = pd.DataFrame(
+                                    result["detections"],
+                                    columns=["x1", "y1", "x2", "y2", "信賴區間", "類別"]
+                                )
+                                df["類別"] = df["類別"].astype(int)
+                                df["信賴區間"] = df["信賴區間"].round(2)
+                                st.dataframe(df[["類別", "信賴區間", "x1", "y1", "x2", "y2"]])
+                            else:
+                                st.write(t["no_objects"])
 
     # Summary metrics
-    st.subheader(t["comparison_summary"].format(task_name=task_name))
-    summary = {
-        "Model": [],
-        "Number of Detections": [],
-        "Average Confidence": []
-    }
-    for model_name, result in results.items():
-        if "error" not in result and result["detections"]:
-            summary["Model"].append(model_name)
-            summary["Number of Detections"].append(len(result["detections"]))
-            confidences = [d[4] for d in result["detections"]]
-            summary["Average Confidence"].append(round(sum(confidences) / len(confidences), 2) if confidences else 0.0)
-        else:
-            summary["Model"].append(model_name)
-            summary["Number of Detections"].append(0)
-            summary["Average Confidence"].append(0.0)
-    st.dataframe(pd.DataFrame(summary))
+        st.subheader(t["comparison_summary"].format(task_name=task_name))
+        summary = {
+            "模型": [],
+            "偵察數量": [],
+            "平均置信度": []
+        }
+        for model_name, result in results.items():
+            if "error" not in result and result["detections"]:
+                summary["模型"].append(model_name)
+                summary["Number of Detections"].append(len(result["detections"]))
+                confidences = [d[4] for d in result["detections"]]
+                summary["平均置信度"].append(round(sum(confidences) / len(confidences), 2) if confidences else 0.0)
+            else:
+                summary["模型"].append(model_name)
+                summary["Number of Detections"].append(0)
+                summary["平均置信度"].append(0.0)
+        st.dataframe(pd.DataFrame(summary))
+
+elif st.session_state.language == "en":
+    # Function to display results
+    def display_results(results, task_name):
+        st.subheader(t["detection_results"].format(task_name=task_name))
+        model_names = list(results.keys())
+    
+        # Use 2x2 grid for Task 1 (4 models), 3x1 grid for Task 2 (3 models)
+        num_cols = 2 if task_name == t["task1_button"] else 1
+        num_rows = (len(model_names) + num_cols - 1) // num_cols
+    
+        for row in range(num_rows):
+            with st.container():
+                cols = st.columns(num_cols)
+                for col_idx, model_idx in enumerate(range(row * num_cols, min((row + 1) * num_cols, len(model_names)))):
+                    model_name = model_names[model_idx]
+                    result = results[model_name]
+                    with cols[col_idx % num_cols]:
+                        st.subheader(model_name)
+                        if "error" in result:
+                            st.error(result["error"])
+                        else:
+                            # Display labeled image
+                            st.image(result["result_image"], caption=t["results_caption"].format(model_name=model_name), use_container_width=True)
+
+                           # Display detection details
+                            if result["detections"]:
+                                st.write(t["detection_details"])
+                                df = pd.DataFrame(
+                                    result["detections"],
+                                    columns=["x1", "y1", "x2", "y2", "confidence", "class"]
+                                )
+                                df["class"] = df["class"].astype(int)
+                                df["confidence"] = df["confidence"].round(2)
+                                st.dataframe(df[["class", "confidence", "x1", "y1", "x2", "y2"]])
+                            else:
+                                st.write(t["no_objects"])
+
+    # Summary metrics
+        st.subheader(t["comparison_summary"].format(task_name=task_name))
+        summary = {
+            "Model": [],
+            "Number of Detections": [],
+            "Average Confidence": []
+        }
+        for model_name, result in results.items():
+            if "error" not in result and result["detections"]:
+                summary["Model"].append(model_name)
+                summary["Number of Detections"].append(len(result["detections"]))
+                confidences = [d[4] for d in result["detections"]]
+                summary["Average Confidence"].append(round(sum(confidences) / len(confidences), 2) if confidences else 0.0)
+            else:
+                summary["Model"].append(model_name)
+                summary["Number of Detections"].append(0)
+                summary["Average Confidence"].append(0.0)
+        st.dataframe(pd.DataFrame(summary))
 
 if uploaded_file is not None:
     if uploaded_file != st.session_state.uploaded_file:
