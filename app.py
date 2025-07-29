@@ -168,12 +168,12 @@ if st.session_state.language == "zh":
         for model_name, result in results.items():
             if "error" not in result and result["detections"]:
                 summary["模型"].append(model_name)
-                summary["Number of Detections"].append(len(result["detections"]))
+                summary["偵察數量"].append(len(result["detections"]))
                 confidences = [d[4] for d in result["detections"]]
                 summary["平均置信度"].append(round(sum(confidences) / len(confidences), 2) if confidences else 0.0)
             else:
                 summary["模型"].append(model_name)
-                summary["Number of Detections"].append(0)
+                summary["偵察數量"].append(0)
                 summary["平均置信度"].append(0.0)
         st.dataframe(pd.DataFrame(summary))
 
