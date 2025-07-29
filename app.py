@@ -196,39 +196,39 @@ if st.session_state.language == "zh":
 elif st.session_state.language == "en":
 
     def display_results(results, task_name):
-    st.subheader(t["detection_results"].format(task_name=task_name))
-    model_names = list(results.keys())
+        st.subheader(t["detection_results"].format(task_name=task_name))
+        model_names = list(results.keys())
     
-    # Use 2x2 grid for both Task 1 and Task 2
-    num_cols = 2
-    num_rows = (len(model_names) + num_cols - 1) // num_cols
+        # Use 2x2 grid for both Task 1 and Task 2
+        num_cols = 2
+        num_rows = (len(model_names) + num_cols - 1) // num_cols
     
-    for row in range(num_rows):
-        with st.container():
-            cols = st.columns(num_cols)
-            for col_idx, model_idx in enumerate(range(row * num_cols, min((row + 1) * num_cols, len(model_names)))):
-                model_name = model_names[model_idx]
-                result = results[model_name]
-                with cols[col_idx % num_cols]:
-                    st.subheader(model_name)
-                    if "error" in result:
-                        st.error(result["error"])
-                    else:
-                        # Display labeled image
-                        st.image(result["result_image"], caption=t["results_caption"].format(model_name=model_name), use_container_width=True)
-
-                        # Display detection details
-                        if result["detections"]:
-                            st.write(t["detection_details"])
-                            df = pd.DataFrame(
-                                result["detections"],
-                                columns=["x1", "y1", "x2", "y2", "confidence", "class"]
-                            )
-                            df["class"] = df["class"].astype(int)
-                            df["confidence"] = df["confidence"].round(2)
-                            st.dataframe(df[["class", "confidence", "x1", "y1", "x2", "y2"]])
+        for row in range(num_rows):
+            with st.container():
+                cols = st.columns(num_cols)
+                for col_idx, model_idx in enumerate(range(row * num_cols, min((row + 1) * num_cols, len(model_names)))):
+                    model_name = model_names[model_idx]
+                    result = results[model_name]
+                    with cols[col_idx % num_cols]:
+                        st.subheader(model_name)
+                        if "error" in result:
+                            st.error(result["error"])
                         else:
-                            st.write(t["no_objects"])
+                            # Display labeled image
+                            st.image(result["result_image"], caption=t["results_caption"].format(model_name=model_name), use_container_width=True)
+
+                            # Display detection details
+                            if result["detections"]:
+                                st.write(t["detection_details"])
+                                df = pd.DataFrame(
+                                    result["detections"],
+                                    columns=["x1", "y1", "x2", "y2", "confidence", "class"]
+                                )
+                                df["class"] = df["class"].astype(int)
+                                df["confidence"] = df["confidence"].round(2)
+                                st.dataframe(df[["class", "confidence", "x1", "y1", "x2", "y2"]])
+                            else:
+                                st.write(t["no_objects"])
 
 
 
