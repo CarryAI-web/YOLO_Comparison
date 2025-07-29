@@ -9,6 +9,7 @@ translations = {
     "en": {
         "page_title": "YOLO Object Detection Model Comparison",
         "title": "YOLO Object Detection Model Comparison",
+        "file_uploader": "Choose an image (.jpg, .jpeg, .png)",
         "upload_prompt": "Upload an image and choose a detection task to compare object detection results.",
         "uploaded_image": "Uploaded Image",
         "detection_results": "Detection Results - {task_name} [Image Size] (All Models are developed in 100 epochs)",
@@ -29,6 +30,7 @@ translations = {
     "zh": {
         "page_title": "YOLO 物件偵察模型評測",
         "title": "YOLO 物件偵察模型評測",
+        "file_uploader": "請選擇一張圖片 (.jpg, .jpeg, .png)",
         "upload_prompt": "請上載一張圖片以比較不同自主訓練模型的結果。",
         "uploaded_image": "已上載的圖片",
         "detection_results": "偵察結果 - {task_name} [圖片尺寸] (所有模型的訓練週期均為 100)",
@@ -82,10 +84,7 @@ st.title(t["title"])
 st.write(t["upload_prompt"])
 
 # File uploader
-if st.session_state.language == "en":
-    uploaded_file = st.file_uploader("Choose an image (.jpg, .jpeg, .png)", type=["jpg", "jpeg", "png"])
-elif st.session_state.language == "zh":
-    uploaded_file = st.file_uploader("請選擇一張圖片作上存 (.jpg, .jpeg, .png)", type=["jpg", "jpeg", "png"])
+uploaded_file = st.file_uploader("file_uploader", type=["jpg", "jpeg", "png"])
 
 # Model name translations
 if st.session_state.language == "en":
