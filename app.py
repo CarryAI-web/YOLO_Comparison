@@ -42,9 +42,9 @@ translations = {
         "spinner": "正在為 {task_name} 進行物件偵察...",
         "Model": "模型",
         "Number of Detections": "偵察數量",
-        "Average Confidence": "平均置信度",
+        "Average Confidence": "平均信賴度",
         "class": "類別",
-        "confidence": "置信水平",
+        "confidence": "信賴區間",
     }
 }
 
@@ -83,21 +83,37 @@ st.write(t["upload_prompt"])
 # File uploader
 uploaded_file = st.file_uploader("Choose an image (.jpg, .jpeg, .png)", type=["jpg", "jpeg", "png"])
 
-# FastAPI endpoint URLs
-MODEL_COMP_URL = {
-    "YOLO11 Medium [890]": "http://127.0.0.1:8005/predict/model1/",
-    "YOLO11 Medium [640]": "http://127.0.0.1:8005/predict/model2/",
-    "YOLO11 Large [640]": "http://127.0.0.1:8005/predict/model3/",
-    "Currently deployed model [640]": "http://127.0.0.1:8005/predict/model4/"
-}
+if st.session_state.language == "en":
+    # FastAPI endpoint URLs
+    MODEL_COMP_URL = {
+        "YOLO11 Medium [890]": "http://127.0.0.1:8005/predict/model1/",
+        "YOLO11 Medium [640]": "http://127.0.0.1:8005/predict/model2/",
+        "YOLO11 Large [640]": "http://127.0.0.1:8005/predict/model3/",
+        "Currently deployed model [640]": "http://127.0.0.1:8005/predict/model4/"
+    }
 
-Task2_URL = {
-    "Default YOLO11 Medium [640]": "http://127.0.0.1:8005/predict/model5/",
-    "Currently deployed model [640]": "http://127.0.0.1:8005/predict/model4/",
-    "YOLO11 Medium [890]": "http://127.0.0.1:8005/predict/model1/",
-    "Pose Detection Model": "http://127.0.0.1:8005/predict/model6/"
-}
+    Task2_URL = {
+        "Default YOLO11 Medium [640]": "http://127.0.0.1:8005/predict/model5/",
+        "Currently deployed model [640]": "http://127.0.0.1:8005/predict/model4/",
+        "YOLO11 Medium [890]": "http://127.0.0.1:8005/predict/model1/",
+        "Pose Detection Model": "http://127.0.0.1:8005/predict/model6/"
+    }
 
+elif st.session_state.language == "zh":
+    # FastAPI endpoint URLs
+    MODEL_COMP_URL = {
+        "YOLO11 Medium [890]": "http://127.0.0.1:8005/predict/model1/",
+        "YOLO11 Medium [640]": "http://127.0.0.1:8005/predict/model2/",
+        "YOLO11 Large [640]": "http://127.0.0.1:8005/predict/model3/",
+        "現正使用中的模型 [640]": "http://127.0.0.1:8005/predict/model4/"
+    }
+
+    Task2_URL = {
+        "YOLO11 默認模型 [640]": "http://127.0.0.1:8005/predict/model5/",
+        "現正使用中的模型 [640]": "http://127.0.0.1:8005/predict/model4/",
+        "YOLO11 Medium [890]": "http://127.0.0.1:8005/predict/model1/",
+        "人體姿態模型": "http://127.0.0.1:8005/predict/model6/"
+    }
 # Function to process detection for a given set of URLs
 def run_detection(file_bytes, urls, task_name):
     results = {}
@@ -163,18 +179,18 @@ if st.session_state.language == "zh":
         summary = {
             "模型": [],
             "偵察數量": [],
-            "平均置信度": []
+            "平均信賴度": []
         }
         for model_name, result in results.items():
             if "error" not in result and result["detections"]:
                 summary["模型"].append(model_name)
                 summary["偵察數量"].append(len(result["detections"]))
                 confidences = [d[4] for d in result["detections"]]
-                summary["平均置信度"].append(round(sum(confidences) / len(confidences), 2) if confidences else 0.0)
+                summary["平均信賴度"].append(round(sum(confidences) / len(confidences), 2) if confidences else 0.0)
             else:
                 summary["模型"].append(model_name)
                 summary["偵察數量"].append(0)
-                summary["平均置信度"].append(0.0)
+                summary["平均信賴度"].append(0.0)
         st.dataframe(pd.DataFrame(summary))
 
 elif st.session_state.language == "en":
