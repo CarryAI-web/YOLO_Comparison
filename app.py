@@ -82,7 +82,10 @@ st.title(t["title"])
 st.write(t["upload_prompt"])
 
 # File uploader
-uploaded_file = st.file_uploader("Choose an image (.jpg, .jpeg, .png)", type=["jpg", "jpeg", "png"])
+if st.session_state.language == "en":
+    uploaded_file = st.file_uploader("Choose an image (.jpg, .jpeg, .png)", type=["jpg", "jpeg", "png"])
+elif st.session_state.language == "zh":
+    uploaded_file = st.file_uploader("請選擇一張圖片作上存 (.jpg, .jpeg, .png)", type=["jpg", "jpeg", "png"])
 
 # Model name translations
 if st.session_state.language == "en":
